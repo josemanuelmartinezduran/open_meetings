@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- Busqueda Minutas -->
+		<record model="ir.ui.view" id="utils_minuta_search">
+			<field name="name">utils.minuta.search</field>
+			<field name="model">utils.minuta</field>
+			<field name="type">search</field>
+			<field name="arch" type="xml">
+				<search string="Buscar">
+					<field name="responsable_id" />
+					<!-- <field name="nombre" /> -->
+				</search>
+			</field>
+		</record>
+
+		<!-- Accion Minutas -->
+		<record model="ir.actions.act_window" id="utils_minuta_actn">
+			<field name="name">Minutas</field>
+			<field name="res_model">utils.minuta</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('privada', '=', False)]</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Haga clic aquí para crear un nuevo registro
+				</p>
+			</field>
+		</record>
+
+		<!-- Accion Minutas Privadas -->
+		<record model="ir.actions.act_window" id="utils_minutap_actn">
+			<field name="name">Minutas Privadas</field>
+			<field name="res_model">utils.minuta</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="domain">[('privada', '=', True)]</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Haga clic aquí para crear un nuevo registro
+				</p>
+			</field>
+		</record>
+
+		<!-- Formulario Minutas -->
+		<record model="ir.ui.view" id="utils_minuta_edit">
+			<field name="name">utils.minuta.edit</field>
+			<field name="model">utils.minuta</field>
+			<field name="type">form</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<form string="X" version="7.0">
+					<header>
+						<field name="estado" widget="statusbar" />
+						<button name="generar_nueva"
+							string="Generar Junta de Seguimiento" type="object" />
+					</header>
+					<sheet>
+						<h1>
+							<field name="name" />
+						</h1>
+						<group>
+							<group>
+								<field name="hora_inicio" />
+								<field name="hora_fin" />
+								<field name="proyecto_id" />
+
+							</group>
+							<group>
+								<field name="lugar" />
+								<field name="responsable_id" />
+								<field name="privada" />
+							</group>
+						</group>
+						<notebook>
+							<page string="Objetivo">
+								<field name="objetivo" widget="html" />
+							</page>
+							<page string="Agenda">
+								<field name="agenda_ids">
+									<tree editable="bottom">
+										<field name="name" />
+										<field name="tiempo" />
+										<field name="tratado" />
+									</tree>
+								</field>
+							</page>
+							<page string="Acuerdos">
+								<field name="asuntos_ids">
+									<tree string="X">
+										<field name="descripcion" />
+										<field name="project_id" />
+										<field name="responsable" />
+										<field name="tipo" />
+										<field name="fecha_limite" />
+										<field name="vuelta" />
+										<field name="horas_dedicadas" />
+										<field name="realizado" />
+									</tree>
+								</field>
+							</page>
+							<page string="Notas">
+								<field name="acuerdos" />
+							</page>
+							<page string="Asistentes">
+								<field name="asistentes_ids">
+									<tree string="X" editable="bottom">
+										<field name="name" />
+										<field name="tiempo" />
+										<field name="asiste" />
+									</tree>
+								</field>
+							</page>
+							<page string="Recurrencia">
+								<field name="recurrente" />
+								<field name="repetir" />
+								<field name="veces" />
+								<field name="nombre" />
+								<button string="Planear" type="object" name="planea" />
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" />
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<!-- Lista Minutas -->
+		<record model="ir.ui.view" id="utils_minuta_view">
+			<field name="name">utils.minuta.view</field>
+			<field name="model">utils.minuta</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<tree string="">
+					<field name="name" />
+					<field name="hora_inicio" />
+					<field name="responsable_id" />
+				</tree>
+			</field>
+		</record>
+
+		<!-- Formulario Acuerdos de La Minuta -->
+		<record model="ir.ui.view" id="jmd_asunto_view">
+			<field name="name">jmd.asunto.view</field>
+			<field name="model">utils.minuta.asunto</field>
+			<field name="type">form</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<form string="X" version="7.0">
+					<header>
+						<button name="task" string="Tarea" type="object"
+							attrs="{'invisible': [('tarea', '=', True)]}" />
+						<field name="tarea" invisible="True" />
+						<button name="appoint" string="Cita" type="object"
+							attrs="{'invisible': [('cita', '=', True)]}" />
+						<field name="cita" invisible="True" />
+					</header>
+					<sheet>
+						<h1>
+							<field name="descripcion" />
+						</h1>
+						<group>
+							<group string="Acuerdo">
+								<field name="project_id" />
+								<field name="responsable" />
+								<field name="fecha_limite" />
+								<field name="prioridad" />
+								<field name="motivo_cambios" />
+								<field name="vuelta" />
+							</group>
+							<group string="Seguimiento">
+								<field name="horas_dedicadas" />
+								<field name="realizado" />
+								<field name="pasos" />
+								<field name="adjunto" filename="nadjunto" />
+								<field name="nadjunto" invisible="True" />
+							</group>
+						</group>
+						<notebook>
+							<page string="Comentarios">
+								<field name="comentarios" />
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" />
+						<field name="message_ids" widget="mail_thread" />
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<!-- Accion ASuntos de la Minuta -->
+		<record model="ir.actions.act_window" id="minutaasunto_actn">
+			<field name="name">Asuntos</field>
+			<field name="res_model">utils.minuta.asunto</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree</field>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Haga clic aquí para crear un nuevo registro
+				</p>
+			</field>
+		</record>
+
+		<!-- Lista Asuntos de la Minuta -->
+		<record model="ir.ui.view" id="minutaasunto_list">
+			<field name="name">minutaasunto.list</field>
+			<field name="model">utils.minuta.asunto</field>
+			<field name="type">tree</field>
+			<field name="priority" eval="16" />
+			<field name="arch" type="xml">
+				<tree string="">
+					<field name="name" />
+					<field name="descripcion" />
+					<field name="responsable" />
+					<field name="fecha_limite" />
+					<field name="vuelta" />
+					<field name="realizado" />
+				</tree>
+			</field>
+		</record>
+
+		<!-- Menu Minutas -->
+		<menuitem id="utils_minuta_menu_main" parent=""
+			name="Minutas" action="" />
+		<menuitem id="utils_minuta_menu"
+			parent="utils_minuta_menu_main" name="Minutas"
+			action="utils_minuta_actn" />
+		<menuitem id="utils_acuerdos_menu"
+			parent="utils_minuta_menu_main" name="Acuerdos de la Minuta"
+			action="minutaasunto_actn" />
+		<menuitem id="utils_minutap_menu"
+			parent="utils_minuta_menu_main" name="Minutas Privadas"
+			action="utils_minutap_actn" groups="minutas_especiales" />
+	</data>
+</openerp>

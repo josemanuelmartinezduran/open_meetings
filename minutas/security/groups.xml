@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="minutas_especiales" model="res.groups">
+			<field name="name">Minutas / Ver Minutas Privadas</field>
+		</record>
+		
+		<record id="minutas" model="res.groups">
+			<field name="name">Minutas / Usuario</field>
+		</record>
+
+	</data>
+</openerp>

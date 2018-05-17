@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+
+		<template id="minuta_reporte">
+			<t t-call="report.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="report.external_layout">
+						<div class="page">
+							<h2 t-field="o.name"></h2>
+							<div class="row">
+								<div class="col-xs-6">
+									<span>
+										Hora inicial:
+										<span t-field="o.hora_inicio" />
+									</span>
+									<br />
+									<span>
+										Hora final:
+										<span t-field="o.hora_fin" />
+									</span>
+								</div>
+								<div class="col-xs-6">
+									<span>
+										Lugar:
+										<span t-field="o.lugar" />
+									</span>
+									<br />
+									<span>
+										Responsable:
+										<span t-field="o.responsable_id" />
+									</span>
+								</div>
+							</div>
+							<br />
+							<h3>Agenda</h3>
+							<br />
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th>
+											<strong>Desciprción</strong>
+										</th>
+										<th>
+											<strong>Tiempo</strong>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr t-foreach="o.agenda_ids" t-as="agenda">
+										<td>
+											<span t-field="agenda.name" />
+										</td>
+										<td>
+											<span t-field="agenda.tiempo" />
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<br />
+							<h3>Acuerdos</h3>
+							<br />
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th>
+											<strong>Desciprción</strong>
+										</th>
+										<th>
+											<strong>Responsable</strong>
+										</th>
+										<th>
+											<strong>Tipo</strong>
+										</th>
+										<th>
+											<strong>Fecha Límite</strong>
+										</th>
+										<th>
+											<strong>Vuelta</strong>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr t-foreach="o.asuntos_ids" t-as="asunto">
+										<td>
+											<span t-field="asunto.descripcion" />
+										</td>
+										<td>
+											<span t-field="asunto.responsable" />
+										</td>
+										<td>
+											<span t-field="asunto.tipo" />
+										</td>
+										<td>
+											<span t-field="asunto.fecha_limite" />
+										</td>
+										<td>
+											<span t-field="asunto.vuelta" />
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<br />
+							<h3>Asistentes</h3>
+							<br />
+							<table class="table table-condensed">
+								<thead>
+									<tr>
+										<th>
+											<strong>Persona</strong>
+										</th>
+										<th>
+											<strong>A Tiempo</strong>
+										</th>
+										<th>
+											<strong>Asistió</strong>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr t-foreach="o.asistentes_ids" t-as="asistente">
+										<td>
+											<span t-field="asistente.name" />
+										</td>
+										<td>
+											<span t-if="asistente.tiempo == 'True'" > Si </span>
+											<span t-if="asistente.tiempo == 'False'" > No </span>
+										</td>
+										<td>
+											<span t-if="asistente.asiste == 'True'" > Si </span>
+											<span t-if="asistente.asiste == 'False'" > No </span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="row">
+								<span t-field="o.acuerdos" />
+							</div>
+						</div>
+					</t>
+				</t>
+			</t>
+		</template>
+		<report id="minuta_repo" model="utils.minuta" string="Minuta"
+			report_type="qweb-pdf" name="minutas.minuta_reporte" file="minuta"
+			attachment_use="False" />
+
+	</data>
+</openerp>
